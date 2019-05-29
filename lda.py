@@ -10,7 +10,7 @@ from nltk.tokenize import word_tokenize
 nlp = spacy.load('en_core_web_lg', disable=['parser', 'ner'])
 from nltk.corpus import stopwords
 stop_words = stopwords.words('english')
-other_stops = ["freestyle", "libre", "dexcom", "http", "https", "abbott", "miaomiao"]
+other_stops = [ "http", "https"]
 stop_words.extend(other_stops)
 
 def make_bigrams(texts):
@@ -52,13 +52,13 @@ def clean(text):
 
 
 # import dataset
-df = pd.read_csv("data/fsl_non_diabetic.csv")
-df = df[["Filtered_Msg"]]
+df = pd.read_csv("data/test.csv")
+df = df[["tweet"]]
 
 # clean data and create a list
-df["Filtered_Msg"] = df["Filtered_Msg"].apply(lambda x: clean(str(x)))
-data = df.Filtered_Msg.values
-
+df["tweet"] = df["tweet"].apply(lambda x: clean(str(x)))
+data = df.tweet.values
+print(data)
 # create list of list of words
 data_words = list(sent_to_words(data))
 
@@ -128,7 +128,7 @@ df_dominant_topic.columns = ['Document_No', 'Dominant_Topic', 'Topic_Perc_Contri
 
 # show
 print(df_dominant_topic.head(10))
-df_dominant_topic.to_csv("temp.csv", index=False)
+df_dominant_topic.to_csv("out.csv", index=False)
 
 
 # number of documents for each topic
